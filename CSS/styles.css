@@ -74,18 +74,15 @@ hr{
 }
 
 .bachelor{
-    position: relative;
-    right: 500px;
+    margin-right: 500px;
 }
 
 .highschool{
-    position: relative;
 
 }
 
 .slc{
-    position: relative;
-    left: 500px;
+    margin-left: 500px;
 }
 
 .work{
