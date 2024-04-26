@@ -1,0 +1,175 @@
+body {
+    color: #40514E;
+    margin: 0;
+    text-align: center;
+    font-family: "Merriweather", serif;
+}
+
+h1{
+    color: black;
+    font-size: 5.625rem;
+    font-family: "Sacramento", cursive;
+    margin: 50px auto 0 auto;
+}
+
+h2{
+    font-size: 2.5rem;
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+}
+
+h3{
+    margin-top: 0px;
+    font-family: "Montserrat", sans-serif;
+}
+
+hr{
+    border-style: none;
+    border-top-style: dashed;
+    border-color: grey;
+    border-width: 3px;
+    width: 100%;
+}
+
+.header{
+    background-color: #BACD92;
+    width: 100%;
+    position: fixed;
+    padding-top: 20px;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.spacer{
+    margin-left: 20px;
+}
+
+.top-container{
+    background-color: #E4F9F5;
+    padding-top: 100px;
+}
+
+.middle-container{
+
+}
+
+.bottom-container{
+    background-color: #66BFBF;
+}
+
+.profile{
+    padding-top: 100px;
+    padding-bottom: 50px;
+}
+
+.research{
+    background-color: #B3C8CF;
+    padding-top: 25px;
+    padding-bottom: 50px;
+}
+
+.research_interest{
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.bachelor{
+    position: relative;
+    right: 500px;
+}
+
+.highschool{
+    position: relative;
+
+}
+
+.slc{
+    position: relative;
+    left: 500px;
+}
+
+.work{
+    background-color: #B3C8CF;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.license{
+    padding-top: 50px;
+}
+
+.ustaad{
+    text-align: left;
+    position: relative;
+    left: 200px;
+}
+
+.civillink{
+    padding-top:100px;
+    text-align: left;
+    position: relative;
+    left: 200px;
+}
+
+.contact{
+    text-align: left;
+    display: inline-block;
+    position: relative;
+    right: 0px;
+}
+
+.otherlinks{
+    display: inline-block;
+    position:relative;
+    left: 300px;
+}
+
+.youtube_img{
+    width: 5%;
+    margin-right:20px;
+}
+
+.linkedin_img{
+    width: 5%;
+}
+
+#changingText{
+    padding-top: 50px;
+    font-size: 2.5rem;
+    font-family: "Montserrat", sans-serif;
+    font-weight: normal;
+}
+
+.dp{
+    padding-left: 75px;
+    padding-right: 75px;
+}
+
+.circle{
+    border-radius: 100%;
+}
+
+.journal{
+    background-color: #F0EBE3;
+    margin:0;
+}
+
+.journal_row {
+  padding-top: 20px;
+  margin-left: 100px;
+  text-align: left;
+}
+
+.journal_img {
+  padding: 25px;
+
+  margin: 0, 20px, 0, 20px;
+  width: 25%;
+}
+
+.journal_entry{
+    font:
+    text-align: justify;
+    word-spacing: 5px;
+}
+
