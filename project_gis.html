@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Integrating CNN Building Classification with GIS Spatial Analysis: Hurricane Harvey (2017)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Integrating CNN building damage classification with GIS spatial analysis for Hurricane Harvey (2017)."
+  />
+
+  <!-- Optional Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #0b1120;
+      --bg-alt: #020617;
+      --card: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.1);
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --border-subtle: rgba(148, 163, 184, 0.25);
+      --shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.8);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --max-width: 960px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 40%, #000 100%);
+      color: var(--text-main);
+      line-height: 1.7;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 32px 16px 48px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: var(--max-width);
+    }
+
+    header {
+      background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(8,47,73,0.95));
+      border-radius: var(--radius-xl);
+      padding: 28px 24px 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      top: 16px;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+    }
+
+    @media (max-width: 768px) {
+      header {
+        position: static;
+      }
+    }
+
+    .title-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 14px 4px 6px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148,163,184,0.55);
+      background: radial-gradient(circle at left, rgba(56,189,248,0.4), transparent 55%);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+    }
+
+    .title-pill-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #e0f2fe, #38bdf8 40%, #082f49 75%);
+      box-shadow: 0 0 20px rgba(56,189,248,0.7);
+    }
+
+    h1 {
+      font-size: clamp(1.9rem, 2.4vw + 1.2rem, 2.6rem);
+      margin: 0 0 10px;
+      letter-spacing: 0.03em;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      margin-bottom: 12px;
+    }
+
+    .authors {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .affiliation {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      opacity: 0.9;
+    }
+
+    .nav-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .nav-chips a {
+      text-decoration: none;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148,163,184,0.45);
+      background: rgba(15,23,42,0.85);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease, transform 0.12s ease;
+    }
+
+    .nav-chips a span {
+      font-size: 0.68rem;
+      opacity: 0.7;
+    }
+
+    .nav-chips a:hover {
+      border-color: var(--accent);
+      color: #e0f2fe;
+      background: rgba(15,23,42,1);
+      transform: translateY(-1px);
+    }
+
+    main {
+      margin-top: 20px;
+    }
+
+    .content-card {
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.95), rgba(15,23,42,0.97));
+      border-radius: var(--radius-xl);
+      padding: 28px 20px 28px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .content-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 0;
+      margin-bottom: 8px;
+      border-bottom: 1px solid rgba(148,163,184,0.35);
+      padding-bottom: 6px;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      margin-top: 22px;
+      margin-bottom: 6px;
+    }
+
+    h4 {
+      font-size: 0.98rem;
+      margin-top: 18px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0 0 10px;
+      font-size: 0.94rem;
+      color: var(--text-main);
+    }
+
+    .keywords {
+      font-size: 0.9rem;
+      background: rgba(15,23,42,0.9);
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      border: 1px dashed rgba(148,163,184,0.4);
+      margin-top: 8px;
+    }
+
+    .keywords span {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    ul, ol {
+      margin-top: 4px;
+      margin-bottom: 10px;
+      padding-left: 1.1rem;
+      font-size: 0.94rem;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      border-radius: var(--radius-pill);
+      color: #e0f2fe;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+
+    .tag-pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .figure-note {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      padding: 8px 10px;
+      border-radius: var(--radius-lg);
+      border: 1px dashed rgba(148,163,184,0.45);
+      background: rgba(15,23,42,0.9);
+      margin: 6px 0 10px;
+    }
+
+    .ref-list {
+      font-size: 0.9rem;
+    }
+
+    .ref-list li {
+      margin-bottom: 6px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      margin-top: 10px;
+      padding: 8px 4px 0;
+      border-top: 1px solid rgba(30,41,59,0.8);
+    }
+
+    a {
+      color: #7dd3fc;
+    }
+
+    a:hover {
+      color: #e0f2fe;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="shell">
+      <header>
+        
+        <h1>Integrating CNN Building Classification with GIS Spatial Analysis: Hurricane Harvey (2017)</h1>
+
+        <p class="subtitle">
+          Rapid, large-area post-disaster building damage assessment using a CNN classifier integrated with
+          GIS-based spatial analysis.
+        </p>
+
+        <p class="authors">
+          <strong>Nishan Lama</strong><sup>1</sup>, <strong>Roshan Jung Karki</strong><sup>2</sup>,
+          <strong>Yogesh Panta</strong><sup>3</sup>
+        </p>
+        <p class="affiliation">
+          <sup>1–3</sup>School of Civil, Environmental, and Infrastructure Engineering, Southern Illinois University<br />
+          <em>Contact:</em> nishan.lama@siu.edu
+        </p>
+
+        <div class="nav-chips">
+          <a href="#abstract"><span>1</span> Abstract</a>
+          <a href="#introduction"><span>2</span> Introduction</a>
+          <a href="#background"><span>3</span> Background</a>
+          <a href="#study-area"><span>4</span> Study Area</a>
+          <a href="#methodology"><span>5</span> Methodology</a>
+          <a href="#results"><span>6</span> Results</a>
+          <a href="#conclusion"><span>7</span> Conclusion</a>
+          <a href="#references"><span>8</span> References</a>
+        </div>
+      </header>
+
+      <main>
+        <!-- ABSTRACT -->
+        <section id="abstract" class="content-card">
+          <div class="content-inner">
+            <div class="tag-pill">
+              <span class="tag-pill-dot"></span>
+              <span>Abstract</span>
+            </div>
+            <p>
+              Rapid post-disaster building damage assessment is essential for effective emergency response
+              and recovery planning, yet traditional field-based evaluation and manual inspection of satellite
+              imagery are labor intensive and inefficient for large, affected areas. This study develops an
+              integrated workflow in which a Convolutional Neural Network (CNN) is used solely as a building
+              damage classifier, while a Geographic Information System (GIS) serves as the primary tool for spatial
+              analysis.
+            </p>
+            <p>
+              A ResNet-18 model was trained on 128×128 pre- and post-disaster building patches from the xBD
+              dataset to perform binary classification of damaged and undamaged buildings for Hurricane Harvey
+              (2017). The CNN predictions were then joined to building footprints and analyzed in GIS to identify
+              and evaluate spatial damage patterns. Three GIS-based assessments were conducted: (1) a true
+              versus predicted accuracy map to visualize spatial patterns of correct and incorrect classifications,
+              (2) a distance-from-river analysis to examine the relationship between river proximity and building
+              damage, and (3) kernel density estimation (KDE) to compare spatial clustering of damage.
+            </p>
+            <p>
+              Results show that the model achieved strong performance (88% overall accuracy) and the CNN
+              predicted labels produced spatial damage patterns similar to the ground truth. These findings
+              demonstrate that, even when the CNN functions only as a classifier, its output can be reliably used
+              for spatial reasoning in GIS. Overall, the combined CNN–GIS workflow offers a faster and more
+              efficient approach to large-area post-disaster damage mapping.
+            </p>
+
+            <div class="keywords">
+              <span>Keywords:</span>
+              Convolutional Neural Network; Building Damage Classification; GIS Spatial Analysis; Hurricane
+              Harvey; Post-Disaster Damage Mapping
+            </div>
+          </div>
+        </section>
+
+        <!-- INTRODUCTION -->
+        <section id="introduction" class="content-card">
+          <div class="content-inner">
+            <h2>1. Introduction</h2>
+            <p>
+              Natural hazards such as hurricanes, floods, and earthquakes cause widespread structural damage,
+              demanding rapid assessment to guide emergency responses, prioritize resources, and support early
+              recovery. Traditional building damage assessment relies on field inspections, reports from local
+              authorities, and manual interpretation of satellite imagery. Although these methods provide valuable
+              insights, they are often time-consuming, difficult to scale, and sometimes unsafe for responders—
+              particularly when the affected area is large and densely populated. These limitations highlight the
+              need for approaches that can automate building-level damage classification while still enabling detailed
+              spatial analysis of the disaster.
+            </p>
+            <p>
+              Recent advances in remote sensing and machine learning have introduced new capabilities for rapid
+              damage detection. High-resolution satellite imagery provides extensive geographic coverage in the
+              immediate aftermath of a disaster, while CNNs can learn visual patterns of damage and classify
+              buildings accordingly. However, many existing studies end at the classification stage, producing a
+              damage map without deeper spatial reasoning. Spatial analysis remains essential for understanding
+              disaster patterns and supporting planning decisions.
+            </p>
+            <p>
+              This project addresses that gap by integrating a CNN-based building damage classifier with GIS to
+              evaluate not only prediction accuracy but also spatial patterns. By comparing accuracy maps,
+              damage–distance relationships, and kernel density surfaces, the study examines whether CNN outputs
+              can be reliably used to reproduce key spatial trends within a flood-affected region.
+            </p>
+          </div>
+        </section>
+
+        <!-- BACKGROUND -->
+        <section id="background" class="content-card">
+          <div class="content-inner">
+            <h2>2. Background</h2>
+
+            <h3>2.1 Geographic Information System (GIS)</h3>
+            <p>
+              A Geographic Information System (GIS) is a system or tool used to store, manage, analyze, and
+              visualize geospatial data. In the context of damage assessment, GIS enables visualization of affected
+              areas, analysis of spatial patterns, and the integration of multiple data sources such as imagery,
+              building outlines, flood zones, and transportation networks. This integration provides a clearer
+              understanding of how damage is distributed across a region.
+            </p>
+            <p>
+              In this project, GIS is used primarily for evaluation and interpretation: to determine whether the CNN
+              generated labels are reliable for damage mapping. GIS therefore serves as the main environment for
+              spatial reasoning, validation, and interpretation of CNN outputs.
+            </p>
+
+            <h3>2.2 Convolutional Neural Networks (CNNs)</h3>
+            <p>
+              Convolutional Neural Networks (CNNs) are deep learning models designed to learn spatial features from
+              images, such as textures, edges, and complex patterns. For this study, a ResNet-18 architecture was
+              selected due to its balance between accuracy and computational efficiency. Compared with deeper
+              networks like ResNet-50 or ResNet-101, ResNet-18 uses significantly fewer parameters, enabling
+              faster training and lower memory requirements—an important consideration in resource-limited
+              environments.
+            </p>
+            <p>
+              ResNet incorporates residual “skip connections,” which help stabilize gradient flow and improve
+              performance when learning complex visual cues such as debris, flood signatures, or shadowed
+              structures. Previous studies have shown strong performance of ResNet models on remote sensing
+              tasks, including damage detection, building footprint extraction, and land-use classification. In this
+              project, the CNN is used strictly as a binary classifier (damaged vs. undamaged), not as a spatial
+              analysis tool.
+            </p>
+
+            <h3>2.3 Dataset</h3>
+            <p>
+              The study uses the xBD dataset, a large-scale public dataset of high-resolution pre- and post-disaster
+              satellite imagery coupled with building footprints and annotated damage labels. The dataset includes
+              over 800,000 buildings from multiple global disaster events. For this project, only Hurricane Harvey
+              (2017) data were used.
+            </p>
+            <p>
+              Building-centered image patches of size 128×128 pixels were extracted from pre- and post-disaster
+              image tiles using the provided building polygons. The patch size was selected to capture each building
+              and sufficient surrounding context (e.g., debris, water) while avoiding excessive background
+              information. To ensure reliable model evaluation, the extracted patches were divided into training,
+              validation, internal test, and external test datasets.
+            </p>
+          </div>
+        </section>
+
+        <!-- STUDY AREA -->
+        <section id="study-area" class="content-card">
+          <div class="content-inner">
+            <h2>3. Study Area</h2>
+            <p>
+              Hurricane Harvey caused catastrophic flooding across the Greater Houston region in 2017, producing
+              widespread structural damage across Harris County, Texas. Although the xBD dataset provides
+              satellite imagery and building footprints scattered across multiple Harvey-affected locations, the
+              spatial analyses in this study were conducted within a specific Area of Interest (AOI) located in
+              western Harris County. The AOI lies near the Buffalo Bayou watershed and George Bush Park and
+              includes a mix of residential neighborhoods, commercial structures, and open green areas.
+            </p>
+            <p>
+              This AOI is suitable for both distance-from-river analysis and cluster-based assessments such as
+              kernel density estimation. While the CNN was trained using scattered Harvey tiles across the broader
+              Houston region, the GIS analysis focused exclusively on this AOI to examine whether model
+              predictions preserve local spatial damage patterns.
+            </p>
+
+            <div class="figure-note">
+              <strong>Figure 1 (from original report):</strong> Study area in western Harris County, Texas, with the
+              AOI outlined in red. Square tiles represent xBD satellite images that provided post-disaster imagery
+              used for CNN patch extraction and performance evaluation.
+            </div>
+
+            <p>
+              Overall, the AOI offers a well-defined spatial environment for evaluating how closely CNN predictions
+              match real flood-related spatial trends and localized hotspots of damage.
+            </p>
+          </div>
+        </section>
+
+        <!-- METHODOLOGY -->
+        <section id="methodology" class="content-card">
+          <div class="content-inner">
+            <h2>4. Project Methodology</h2>
+            <p>
+              The workflow consists of two major phases:
+            </p>
+            <ul>
+              <li>(a) CNN-based damage classification</li>
+              <li>(b) GIS integration and spatial analysis</li>
+            </ul>
+
+            <h3>4.1 Phase 1 – CNN Classification</h3>
+
+            <h4>4.1.1 Patch Extraction</h4>
+            <p>
+              Using building footprints from the xBD dataset, 128×128 pixel image patches centered on each
+              building were extracted. The centroid of each polygon footprint was used to compute a crop window
+              on both pre- and post-disaster imagery tiles. This patch size ensured that the entire building and
+              relevant surrounding context (debris, flood water) were captured while avoiding unnecessary
+              background. The extracted patches were then split into training, validation, internal test, and external
+              test datasets.
+            </p>
+
+            <h4>4.1.2 CNN Model Architecture</h4>
+            <p>
+              A ResNet-18 architecture was selected for binary classification, where 0 indicates an undamaged
+              building and 1 indicates a damaged building. ResNet-18 is computationally efficient due to its smaller
+              depth and reduced parameter count compared to deeper variants (e.g., ResNet-50), making it suitable
+              for faster training while still providing strong feature extraction through residual skip connections.
+            </p>
+            <p>
+              The model was trained using:
+            </p>
+            <ul>
+              <li>Optimizer: Adam</li>
+              <li>Learning rate: 1 × 10<sup>-4</sup></li>
+              <li>Batch size: 32</li>
+              <li>Epochs: 10</li>
+            </ul>
+
+            <h4>4.1.3 Model Evaluation Metrics</h4>
+            <p>
+              Performance was evaluated on an external test dataset using:
+            </p>
+            <ul>
+              <li>Accuracy (overall correctness)</li>
+              <li>Precision (correctness of predicted damaged buildings)</li>
+              <li>Recall (percentage of actual damaged buildings detected)</li>
+              <li>F1-score (balanced measure of precision and recall)</li>
+              <li>Confusion matrix</li>
+            </ul>
+            <p>
+              These metrics provide a comprehensive understanding of classification performance.
+            </p>
+
+            <h4>4.1.4 CNN Output</h4>
+            <p>
+              The model outputs were stored in a CSV file containing:
+            </p>
+            <ul>
+              <li><code>uid</code> – building ID</li>
+              <li><code>pred_damage</code> – predicted damage class (0 or 1)</li>
+              <li><code>prob_damage</code> – confidence score</li>
+            </ul>
+            <p>
+              This CSV serves as the primary input to Phase 2, where GIS is used for spatial reasoning.
+            </p>
+
+            <h3>4.2 Phase 2 – GIS Integration and Spatial Analysis</h3>
+
+            <h4>4.2.1 Data Integration</h4>
+            <p>
+              Building footprints from xBD (JSON format) were converted into a polygon feature class in ArcGIS
+              Pro and projected to WGS 1984 UTM Zone 15N to allow accurate distance calculations in meters. The
+              CSV file containing CNN predictions was imported and joined to the footprints using the
+              <code>uid</code> field, creating a spatial dataset that stores both true and predicted damage labels for
+              each building.
+            </p>
+
+            <h4>4.2.2 True vs. Predicted Accuracy Map</h4>
+            <p>
+              A comparison map was generated to visualize building-level damage based on true labels and CNN
+              predictions, highlighting spatial patterns of agreement and error within the AOI.
+            </p>
+
+            <h4>4.2.3 Distance from River Damage Analysis</h4>
+            <p>
+              A nearby river (Bayou) within the study area was digitized in ArcGIS Pro. Euclidean distance from
+              each building to the river was computed using the <em>Near</em> tool. Buildings were grouped into
+              distance bands (0–200&nbsp;m, 200–500&nbsp;m, 500–1000&nbsp;m, and &gt;1000&nbsp;m). For each band, the
+              percentage of damaged buildings was calculated separately for true and predicted labels to examine
+              whether CNN predictions capture the same flood-related spatial gradients as the ground truth.
+            </p>
+
+            <h4>4.2.4 Kernel Density Estimation (KDE)</h4>
+            <p>
+              KDE was generated for both true and predicted damaged buildings to identify hotspots of
+              concentrated damage. KDE maps allow comparison of spatial clustering patterns. Similar KDE
+              surfaces for true and predicted damage indicate that CNN predictions retain spatial information
+              relevant for hotspot analysis, even when individual building classifications contain errors.
+            </p>
+          </div>
+        </section>
+
+        <!-- RESULTS -->
+        <section id="results" class="content-card">
+          <div class="content-inner">
+            <h2>5. Results and Discussion</h2>
+
+            <h3>5.1 CNN Performance</h3>
+            <p>
+              The ResNet-18 model demonstrated strong performance in distinguishing damaged and undamaged
+              buildings. On the external test set, the model achieved 88% overall accuracy with balanced precision
+              and recall across both classes, indicating that the classifier can reliably detect building damage from
+              post-disaster imagery.
+            </p>
+            <p>
+              For undamaged buildings, precision was 0.92 and recall was 0.86, indicating few false positive
+              alarms. For damaged buildings, recall reached 0.92 with precision of 0.85, meaning most truly
+              damaged buildings were correctly identified with a moderate rate of false positives.
+            </p>
+            <p>
+              The confusion matrix shows:
+            </p>
+            <ul>
+              <li>2,546 true undamaged buildings correctly classified</li>
+              <li>420 undamaged buildings incorrectly predicted as damaged</li>
+              <li>2,310 damaged buildings correctly identified</li>
+              <li>212 damaged buildings missed (predicted as undamaged)</li>
+            </ul>
+            <p>
+              Misclassifications often occurred in visually ambiguous areas, such as buildings partially obscured by
+              trees or structures covered by shadows. Because the CNN relies solely on optical post-disaster
+              imagery, damage modes like interior flooding or foundation failures that leave little visible exterior
+              evidence cannot be detected. Variation in tile quality, illumination, and viewing angle may also
+              introduce inconsistencies.
+            </p>
+
+            <h3>5.2 True vs. Predicted Accuracy Map</h3>
+            <p>
+              A representative tile from the AOI was used to visually compare true building damage labels with CNN
+              predictions. The accuracy map displays pre-disaster imagery with building outlines, true labels, CNN
+              predicted labels, and a prediction accuracy layer where correctly classified buildings appear in white
+              and misclassified buildings in magenta.
+            </p>
+
+            <div class="figure-note">
+              <strong>Figure 2 (from original report):</strong> Comparison of true labels and CNN-predicted labels for
+              Hurricane Harvey within a representative tile. Correct classifications appear in white; incorrect
+              predictions appear in magenta.
+            </div>
+
+            <p>
+              The accuracy map demonstrates that CNN predictions align well with the true damage distribution
+              across the neighborhood, with misclassifications concentrated in visually complex areas.
+            </p>
+
+            <h3>5.3 Distance from River Analysis</h3>
+            <p>
+              The AOI map with the digitized river network and damaged buildings reveals that both true and
+              predicted damage trends exhibit a clear pattern: the percentage of damaged buildings is highest near
+              the river and decreases with distance. This indicates that flooding near the river produced stronger
+              concentrations of damage during Hurricane Harvey, and that the CNN successfully reproduces this
+              flood-related gradient.
+            </p>
+
+            <div class="figure-note">
+              <strong>Figure 3 (from original report):</strong> Distance-from-river damage analysis showing spatial
+              distribution of true and predicted damaged buildings and bar charts summarizing percentage damage
+              within four distance bands.
+            </div>
+
+            <h3>5.4 Kernel Density Estimation (KDE) Analysis</h3>
+            <p>
+              KDE maps provide smoothed visualizations of where damaged buildings are spatially concentrated in
+              the AOI. Each damaged building contributes to a continuous density surface using a 200&nbsp;m search
+              radius. The output is expressed in kernel-weighted density units per square kilometer, representing
+              relative clustering intensity rather than raw building counts.
+            </p>
+            <p>
+              KDE surfaces generated from ground truth labels and CNN predictions highlight several consistent
+              hotspots. Minor differences appear where the CNN slightly over- or underestimates local damage
+              intensity, and the smoothing process can spread classification errors over nearby areas. Nonetheless,
+              the overall similarity between the two KDE surfaces demonstrates that CNN-generated building labels
+              can reliably support GIS-based spatial analyses.
+            </p>
+
+            <div class="figure-note">
+              <strong>Figure 4 (from original report):</strong> Comparison of KDE surfaces generated from true damage
+              labels (top) and CNN-predicted labels (bottom). Darker shades represent higher concentrations of
+              damaged buildings based on a 200&nbsp;m search radius.
+            </div>
+          </div>
+        </section>
+
+        <!-- CONCLUSION -->
+        <section id="conclusion" class="content-card">
+          <div class="content-inner">
+            <h2>6. Conclusion</h2>
+            <p>
+              This project demonstrates an integrated workflow that uses a CNN purely as a building damage
+              classifier and GIS as the main environment for spatial analysis. Using pre- and post-disaster building
+              images from the xBD Hurricane Harvey dataset, a ResNet-18 model was trained for binary damage
+              classification and achieved strong performance.
+            </p>
+            <p>
+              Although the CNN itself does not perform any spatial reasoning, its prediction outputs were
+              successfully transferred into GIS for further interpretation. Across all analyses—accuracy mapping,
+              distance-from-river assessment, and KDE—the CNN predictions closely matched the spatial patterns
+              of the true labels. These results show that CNN predictions, despite being purely pixel-based
+              classifications, are reliable enough to support GIS-based spatial assessments.
+            </p>
+            <p>
+              Overall, combining CNN classification with GIS provides an efficient and scalable approach for large-
+              area disaster damage assessment. Even with a simple binary model and a limited AOI, the integrated
+              workflow produced meaningful maps that reflect real flood-related damage patterns and can support
+              post-disaster mapping and preliminary impact assessment.
+            </p>
+
+            <h3>7. Future Work</h3>
+            <p>
+              Future work may expand this study by:
+            </p>
+            <ul>
+              <li>Incorporating multiclass damage levels.</li>
+              <li>Integrating elevation or flood-depth rasters.</li>
+              <li>
+                Applying uncertainty mapping to better understand model confidence and guide interpretation of
+                predictions.
+              </li>
+              <li>
+                Extending the workflow to larger areas or multiple disasters to evaluate generalization potential.
+              </li>
+              <li>
+                Testing more advanced CNN architectures or adding spatial context directly into the model to
+                further improve prediction reliability before GIS integration.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- REFERENCES -->
+        <section id="references" class="content-card">
+          <div class="content-inner">
+            <h2>References</h2>
+            <ol class="ref-list">
+              <li>
+                Blake, E. S., &amp; Zelinsky, D. A. (2018).
+                <em>Tropical Cyclone Report: Hurricane Harvey (AL092017)</em>. National Hurricane Center,
+                NOAA. Available at: National Hurricane Center technical report.
+              </li>
+              <li>
+                Esri (2025). <em>Euclidean Distance (Spatial Analyst)</em> – ArcGIS Pro Documentation.
+              </li>
+              <li>
+                Esri (2025). <em>Kernel Density (Spatial Analyst)</em> – ArcGIS Pro Documentation.
+              </li>
+              <li>
+                Gupta, R., Hosfelt, R., Sajeev, S., et al. (2019). xBD: A Dataset for Assessing Building Damage from
+                Satellite Imagery. <em>arXiv</em>:1911.09296.
+              </li>
+              <li>
+                He, K., Zhang, X., Ren, S., &amp; Sun, J. (2016). Deep Residual Learning for Image Recognition.
+                In <em>Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)</em>
+                (pp. 770–778).
+              </li>
+              <li>
+                Yang, R., Meng, X., Yao, Y., Chen, B., You, Y., &amp; Xiang, Z. (2018). An Analytical Approach to
+                Evaluate Point Cloud Registration Error Utilizing Targets.
+                <em>ISPRS Journal of Photogrammetry and Remote Sensing, 143</em>, 48–56.
+              </li>
+            </ol>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        &copy; <span id="year"></span> Nishan Lama &middot; CNN&nbsp;+&nbsp;GIS Building Damage Assessment &middot;
+        Hurricane Harvey (2017)
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // Set current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

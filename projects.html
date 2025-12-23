@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects | Nishan Lama</title>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="CSS/projects_styles.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a class="nav-button" href="Home.html">Home</a>
+    <a class="nav-button active" href="Projects.html">Projects</a>
+    <a class="nav-button" href="Resume.html">Resume</a>
+    <a class="nav-button" href="Journal.html">Journal</a>
+    <a class="nav-button" href="Hobby.html">Hobby</a>
+  </nav>
+
+
+    <a class="nav-button" href="Resume.html">Resume</a>
+    <a class="nav-button" href="Journal.html">Journal</a>
+    <a class="nav-button" href="Hobby.html">Hobby</a>
+  </nav>
+
+  <main>
+
+    <!-- PAGE HEADER -->
+    <section class="page-hero">
+      <h1>Projects</h1>
+      <p>
+        Engineering and research projects.
+      </p>
+    </section>
+
+    <!-- ================== PROJECT 1 ================== -->
+    <section class="project" id="lstm-project">
+      <h2>Structural Response Prediction using LSTM (Linear 3-DOF + Nonlinear Bouc-Wen SDOF)</h2>
+      <p class="subtitle">
+        Sequence-to-sequence LSTM models trained to predict structural displacement
+        from ground acceleration for linear and nonlinear systems.
+      </p>
+
+      <article class="card">
+        <h3>Overview</h3>
+        <ul class="bullets">
+          <li>Linear 3-DOF lumped-mass building model</li>
+          <li>Nonlinear SDOF Bouc–Wen hysteretic system</li>
+          <li>Input: ground acceleration → Output: displacement response</li>
+        </ul>
+
+        <div class="tag-row">
+          <span class="tag">LSTM</span>
+          <span class="tag">Structural Dynamics</span>
+          <span class="tag">Time Series</span>
+        </div>
+
+        <a class="btn" href="project_dynamics.html" target="_blank">
+          Read More
+        </a>
+      </article>
+    </section>
+
+    <!-- ================== PROJECT 2 ================== -->
+    <section class="project" id="gis-project">
+      <h2>Post-Hurricane Building Damage Mapping (GIS + CNN)</h2>
+      <p class="subtitle">
+        Deep-learning-based building damage classification integrated with GIS
+        spatial analysis for Hurricane Harvey.
+      </p>
+
+      <article class="card">
+        <h3>Overview</h3>
+        <ul class="bullets">
+          <li>ResNet-18 CNN trained on xBD satellite imagery</li>
+          <li>Binary damage classification (damaged / undamaged)</li>
+          <li>Predictions integrated into ArcGIS Pro</li>
+          <li>Spatial analysis using distance-to-river and KDE</li>
+        </ul>
+
+        <div class="tag-row">
+          <span class="tag">CNN</span>
+          <span class="tag">GIS</span>
+          <span class="tag">Remote Sensing</span>
+        </div>
+
+        <a class="btn" href="project_gis" target="_blank">
+          Read More
+        </a>
+      </article>
+    </section>
+
+  </main>
+
+</body>
+</html>

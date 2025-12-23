@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hobby | Nishan Lama</title>
+
+  <link rel="icon" href="letter-n.png" type="image/png" />
+  <link rel="stylesheet" href="CSS/hobby_styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
+
+<header>
+  <nav>
+    <a class="nav-button" href="Home.html">Home</a>
+    <a class="nav-button" href="Resume.html">Resume</a>
+    <a class="nav-button" href="projects.html">Projects</a>
+    <a class="nav-button active" href="hobby.html">Hobby</a>
+    <a class="nav-button" href="Journal.html">Journal</a>
+  </nav>
+</header>
+
+<main class="page">
+
+  <!-- INTRO VIDEO -->
+  <section class="card intro-video">
+    <h2 class="section-title">Intro Video</h2>
+    <div class="video-wrapper">
+      <video autoplay muted controls>
+        <source src="Intro Video.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </section>
+
+  <!-- TITLE -->
+  <section class="card title">
+    <h1>Things I Like to Do</h1>
+    <p class="subtitle">A few things I enjoy outside engineering and research.</p>
+
+    <div class="social-buttons">
+      <a href="https://www.youtube.com/@YourChannel" target="_blank" class="social-btn youtube">
+        <i class="fab fa-youtube"></i> YouTube
+      </a>
+      <a href="https://www.instagram.com/yourprofile" target="_blank" class="social-btn instagram">
+        <i class="fab fa-instagram"></i> Instagram
+      </a>
+      <a href="https://www.tiktok.com/@usernotfound101__" target="_blank" class="social-btn tiktok">
+        <i class="fab fa-tiktok"></i> TikTok
+      </a>
+    </div>
+  </section>
+
+  <!-- HOBBIES -->
+  <section class="grid">
+    <article class="card hobby-card">
+      <h2>🎸 Playing Guitar</h2>
+      <p>I feel relaxed when I play guitar. Still learning to enjoy the moment.</p>
+    </article>
+
+    <article class="card hobby-card">
+      <h2>📷 Photography</h2>
+      <p>I like capturing what feels right in the moment.</p>
+    </article>
+
+    <article class="card hobby-card">
+      <h2>🎮 Gaming</h2>
+      <p>Video games are a fun escape, especially with friends.</p>
+    </article>
+
+    <article class="card hobby-card">
+      <h2>🎬 Movies & Series</h2>
+      <p>I enjoy movies and series — mostly <strong>thrillers</strong>.</p>
+    </article>
+  </section>
+
+  <!-- YOUTUBE -->
+  <section class="card video-gallery">
+    <h2 class="section-title">YouTube</h2>
+
+    <div class="video-container">
+      <iframe src="https://www.youtube.com/embed/rhlm48vbmfY" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/rVp_Wzdulqo" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/V_5f6IVHFuA" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- TIKTOK -->
+  <section class="card tiktok-gallery">
+  <h2 class="section-title">TikTok</h2>
+
+  <div class="tiktok-grid">
+
+    <div class="tiktok-item">
+      <blockquote class="tiktok-embed"
+        cite="https://www.tiktok.com/@usernotfound101__/video/7570922262803631378"
+        data-video-id="7570922262803631378">
+        <section></section>
+      </blockquote>
+    </div>
+
+    <div class="tiktok-item">
+      <blockquote class="tiktok-embed"
+        cite="https://www.tiktok.com/@usernotfound101__/video/7460643121039232274"
+        data-video-id="7460643121039232274">
+        <section></section>
+      </blockquote>
+    </div>
+
+    <div class="tiktok-item">
+      <blockquote class="tiktok-embed"
+        cite="https://www.tiktok.com/@usernotfound101__/video/7482240229185801490"
+        data-video-id="7482240229185801490">
+        <section></section>
+      </blockquote>
+</div>
+
+  </div>
+</section>
+
+
+  <!-- WHAT I WANT TO DO -->
+  <section class="card whattodo">
+    <h2 class="section-title">🌟 Things I Want to Do</h2>
+
+    <div class="todo-item">
+      <h3>📚 Read more books</h3>
+      <p>I like the idea of reading novels. I’ve started many and finished a few — someday I’ll build the habit.</p>
+    </div>
+
+    <div class="todo-item">
+      <h3>🎨 Explore digital art</h3>
+      <p>I enjoy digital art and follow tutorials to create simple pieces.</p>
+    </div>
+
+    <div class="todo-item">
+      <h3>🎹 Learn piano</h3>
+      <p>I want to learn piano to enjoy calm, expressive music and improve musical skills.</p>
+    </div>
+  </section>
+
+  <!-- DIGITAL ART -->
+  <section class="card digital-art">
+    <h2 class="section-title">🎨 Digital Art</h2>
+    <div class="art-grid">
+      <img src="images/Digital Art/1.jpg" alt="Digital Art 1">
+      <img src="images/Digital Art/2.jpg" alt="Digital Art 2">
+      <img src="images/Digital Art/3.jpg" alt="Digital Art 3">
+      <img src="images/Digital Art/4.jpg" alt="Digital Art 4">
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© <span>2024</span> Nishan Lama</p>
+  </footer>
+
+</main>
+
+<!-- TikTok script ONCE -->
+<script async src="https://www.tiktok.com/embed.js"></script>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
