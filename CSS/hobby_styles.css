@@ -1,0 +1,244 @@
+/* Base */
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  background: #f3f3f3;
+  color: #222;
+  line-height: 1.6;
+}
+
+/* NAVBAR */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 1000;
+  padding: 10px 48px;
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.nav-button {
+  position: relative;
+  text-decoration: none;
+  color: #111;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 6px 0;
+}
+
+.nav-button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: #111;
+  transition: width 0.25s ease;
+}
+
+.nav-button:hover::after { width: 100%; }
+
+.nav-button.active::after { width: 100%; }
+
+/* Layout */
+.page {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 110px 20px 40px; /* space for fixed navbar */
+}
+
+.card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  padding: 22px;
+  margin-bottom: 22px;
+}
+
+.section-title {
+  margin: 0 0 14px;
+  color: #2c3e50;
+  font-size: 1.3rem;
+}
+
+/* Title */
+.title {
+  text-align: center;
+}
+
+.title h1 {
+  margin: 0;
+  font-size: 2.4rem;
+  color: #2c3e50;
+}
+
+.subtitle {
+  margin: 10px 0 0;
+  color: #555;
+  font-weight: 300;
+}
+
+/* Social buttons */
+.social-buttons {
+  margin-top: 18px;
+}
+
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 10px;
+  color: #fff;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.social-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.youtube { background: #FF0000; }
+.instagram { background: #E1306C; }
+.tiktok { background: #000000; }
+
+/* Intro video */
+.video-wrapper {
+  position: relative;
+  padding-top: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+
+.video-wrapper video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+/* Hobby cards grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.hobby-card h2 {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+  color: #34495e;
+}
+
+.hobby-card p { margin: 0; color: #444; }
+
+/* Video gallery */
+.video-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.video-container iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+}
+
+/* TikTok grid layout */
+.tiktok-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 per row */
+  gap: 24px;
+  justify-items: center;
+}
+
+.tiktok-item {
+  width: 100%;
+  max-width: 360px; /* perfect TikTok width */
+}
+
+/* Remove TikTok injected margins */
+.tiktok-embed {
+  margin: 0 !important;
+}
+
+/* Tablet: 2 per row */
+@media (max-width: 1200px) {
+  .tiktok-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: 1 per row */
+@media (max-width: 768px) {
+  .tiktok-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+/* Want to do */
+.todo-item {
+  margin-top: 14px;
+  padding: 14px 14px;
+  border-left: 5px solid #2c3e50;
+  background: #f8f8f8;
+  border-radius: 10px;
+}
+
+.todo-item h3 {
+  margin: 0 0 6px;
+  color: #34495e;
+}
+
+.todo-item p { margin: 0; color: #131313; }
+
+/* Digital art */
+.art-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.art-grid img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  color: #666;
+  padding-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  nav { padding: 10px 18px; gap: 16px; }
+  .grid { grid-template-columns: 1fr; }
+  .video-container { grid-template-columns: 1fr; }
+  .art-grid { grid-template-columns: 1fr; }
+}
